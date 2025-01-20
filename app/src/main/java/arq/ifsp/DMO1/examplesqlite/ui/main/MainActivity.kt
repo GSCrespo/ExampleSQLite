@@ -39,6 +39,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.load()
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.load()
+    }
+
+
     private fun setupLauncher() {
         resultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),

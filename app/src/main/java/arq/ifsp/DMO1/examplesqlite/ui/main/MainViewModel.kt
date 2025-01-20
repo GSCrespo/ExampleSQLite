@@ -9,7 +9,10 @@ import arq.ifsp.DMO1.examplesqlite.data.repository.MeuDadoRepository
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private lateinit var repository: MeuDadoRepository
+    // sempre passar como parametro Application invéz de context, por conta que context pode resultar em problemas
+    // aplication é o contexto geral do aplicativo e não o da activity atual
+
+    private  var repository: MeuDadoRepository
 
 
     private val _dados = MutableLiveData<List<MeuDado>>()
