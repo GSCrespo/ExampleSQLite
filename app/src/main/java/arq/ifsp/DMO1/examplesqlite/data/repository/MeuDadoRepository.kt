@@ -11,7 +11,11 @@ class MeuDadoRepository(context: Context) {
     private val dao = MeuDAO(dbHelper)
 
     fun getAllMeusDados(): List<MeuDado> = dao.getAll()
+    fun getMeuDadoById(id: Int): MeuDado?{
+        return dao.getById(id)
+    }
 
     fun addMeuDado(dado: MeuDado) = dao.insert(dado)
     fun updateMeuDado(dado: MeuDado) = dao.update(dado)
+    fun deleteMeuDado(dado: MeuDado) = dao.delete(dado)
 }

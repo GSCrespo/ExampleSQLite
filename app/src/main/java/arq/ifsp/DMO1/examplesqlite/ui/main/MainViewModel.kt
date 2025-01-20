@@ -13,6 +13,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     // aplication é o contexto geral do aplicativo e não o da activity atual
 
     private  var repository: MeuDadoRepository
+    private var toDeleteMeuDado: MeuDado? = null
+
+
+    private val _toDeleteTexto = MutableLiveData<String>()
+    val toDeleteTexto: LiveData<String> = _toDeleteTexto
+
+    private val _deleted = MutableLiveData<Boolean>()
+    val deleted: LiveData<Boolean> = _deleted
+
 
 
     private val _dados = MutableLiveData<List<MeuDado>>()
@@ -32,4 +41,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         repository.addMeuDado(MeuDado(-1,texto))
         _dados.value = repository.getAllMeusDados()
     }
+
+    fun updateDado(id: Int, texto: String) {
+        val dado = MeuDado(id,texto)
+        repository.updateMeuDado(dado)
+        load()
+    }
+
+    fun notifyDelete(id: Int) {
+        toDeleteMeuDado = repository.getMeuDadoById(id)
+        if (toDeleteMeuDado != null) {
+            _toDeleteTexto.value = toDeleteMeuDado!!.texto
+        }
+    }
+
+    fun confirmDelete() {
+        if (toDeleteMeuDado != null) {
+            repository.deleteMeuDado(toDeleteMeuDado!!)
+            toDeleteMeuDado = null
+            _deleted.value = true
+            load()
+        }
+    }
+
+
+
 }

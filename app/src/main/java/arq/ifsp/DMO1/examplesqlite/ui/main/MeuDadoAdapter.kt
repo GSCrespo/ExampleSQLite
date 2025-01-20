@@ -8,7 +8,9 @@ import arq.ifsp.DMO1.examplesqlite.R
 import arq.ifsp.DMO1.examplesqlite.data.model.MeuDado
 import arq.ifsp.DMO1.examplesqlite.databinding.ItemListDadoBinding
 
-class MeuDadoAdapter(private var dataset: List<MeuDado>) : RecyclerView.Adapter<MeuDadoAdapter.ViewHolder>() {
+class MeuDadoAdapter(
+    private var dataset: List<MeuDado>,
+    private val listener: ItemListDadoClickListener) : RecyclerView.Adapter<MeuDadoAdapter.ViewHolder>() {
 
     fun updateDados(dados: List<MeuDado>) {
         dataset = dados
@@ -24,6 +26,15 @@ class MeuDadoAdapter(private var dataset: List<MeuDado>) : RecyclerView.Adapter<
         val dado = dataset[position]
         holder.binding.textTextoDado.setText(dado.texto)
         holder.binding.textIdDado.setText("[${dado.id}]")
+        holder.binding.imageEditDado.setOnClickListener{
+
+            listener.clickEditItemList(dado.id,dado.texto)
+        }
+        holder.binding.imageDeleteDado.setOnClickListener{
+            listener.clickDeleteItemList(dado.id)
+        }
+
+        //dispara os outros metodos, usando holder para delegar a açao de click no local desejado
     }
 
     override fun getItemCount(): Int {
@@ -33,4 +44,6 @@ class MeuDadoAdapter(private var dataset: List<MeuDado>) : RecyclerView.Adapter<
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: ItemListDadoBinding = ItemListDadoBinding.bind(view)
     }
+
+
 }
